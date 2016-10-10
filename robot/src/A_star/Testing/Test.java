@@ -5,11 +5,15 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+import A_star.Algorithm.PathFinder;
+import General.Point;
+
 /**
  * Created by Konstantin on 09.10.2016.
  */
 public class Test {
     public static void main(String [] args){
+        PathFinder.Start("robot/src/Labirint.bmp", new Point(0,0), new Point(0,0));
 //        SpoilImage();
     }
 
