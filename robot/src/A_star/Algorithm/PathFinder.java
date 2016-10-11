@@ -20,10 +20,12 @@ public class PathFinder {
             e.printStackTrace();
             return;
         }
-        int singleCoord;
-        Queue<Node> openList;
+        ArrayList<Node> openList;
         ArrayList<Integer> closedList;
+        double auxG, auxH, auxF;
+        int singleCoord;
 
+        openList.add(new Node())
     }
 
     private static int TwoDimToOneDim(Point point, int width){
