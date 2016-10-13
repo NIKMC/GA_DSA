@@ -1,14 +1,17 @@
 package A_star.Algorithm;
 
+import General.Point;
+
 /**
  * Created by Konstantin on 10.10.2016.
  */
 public class Node {
     Node parent;
     double f, g, h;
-    int position;
+    Point position;
+    int [] links = new int[8];
 
-    public Node(Node parent, double f, double g, double h, int position) {
+    public Node(Node parent, double f, double g, double h, Point position) {
         this.parent = parent;
         this.f = f;
         this.g = g;
@@ -16,12 +19,15 @@ public class Node {
         this.position = position;
     }
 
-    public Node(Node parent, double g, double h, int position) {
+    public Node() {
+    }
+
+    public Node(Node parent, double g, Point position, Point targetPosition) {
         this.parent = parent;
         this.g = g;
-        this.h = h;
         this.position = position;
-        this.f = g+h;
+        this.f = g + h;
+
     }
 
     public double getF() {
@@ -36,7 +42,7 @@ public class Node {
         return h;
     }
 
-    public int getPosition() {
+    public Point getPosition() {
         return position;
     }
 
@@ -60,7 +66,15 @@ public class Node {
         this.h = h;
     }
 
-    public void setPosition(int position) {
+    public void setPosition(Point position) {
         this.position = position;
+    }
+
+    public void CalculateH(Point targetPosition){
+        this.h = Math.sqrt(Math.pow((targetPosition.getX() - this.position.getX()),2) + Math.pow((targetPosition.getY() - this.position.getY()),2));
+    }
+
+    public void AddLink(int index, int value){
+        this.links[index] = value;
     }
 }
