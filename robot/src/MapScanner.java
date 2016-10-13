@@ -14,10 +14,10 @@ public class MapScanner {
      * @return Array of linkedListes
      * @throws IOException
      */
-    public static LinkedList<Integer>[] scan(String path) throws IOException {
+    public static LinkedList<Edge>[] scan(String path) throws IOException {
 
         long _BLACK = -16000000;    // black : rgb < -16 000 000
-        LinkedList<Integer> [] graph = null;
+        LinkedList<Edge> [] graph = null;
         File f = new File(path);
         BufferedImage image = ImageIO.read(f);
 
@@ -26,23 +26,35 @@ public class MapScanner {
             int height = image.getHeight();
             graph = new LinkedList[height*width];  // graphh is a matrix -> array, matrix[i,j] = graph[i*width + j]
             for (int i = 0; i < graph.length; i++) {
-                graph[i] = new LinkedList<Integer>();
+                graph[i] = new LinkedList<Edge>();
             }
 
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
                     if(image.getRGB(j,i) > _BLACK) {
                         if (i > 0 && image.getRGB(j, i - 1) > _BLACK) { // top pixel
-                            graph[i * width + j].add((i - 1) * width + j);
+                            graph[i * width + j].add(new Edge((i - 1) * width + j, 1));
                         }
-                        if (i < height - 1 && image.getRGB(j, i + 1) > _BLACK) { // lower pixel
-                            graph[i * width + j].add((i + 1) * width + j);
+                        if (i > 0 && j < width - 1 && image.getRGB(j + 1, i - 1) > _BLACK) { // top right pixel
+                            graph[i * width + j].add(new Edge((i - 1) * width + j + 1, Math.sqrt(2)));
                         }
                         if (j < width - 1 && image.getRGB(j + 1, i) > _BLACK) { // right pixel
-                            graph[i * width + j].add(i * width + j + 1);
+                            graph[i * width + j].add(new Edge( i * width + j + 1, 1));
+                        }
+                        if (j < width - 1 && i < height - 1 &&  image.getRGB(j + 1, i + 1) > _BLACK) { // right lower pixel
+                            graph[i * width + j].add(new Edge( (i+1) * width + j + 1, Math.sqrt(2)));
+                        }
+                        if (i < height - 1 && image.getRGB(j, i + 1) > _BLACK) { // lower pixel
+                            graph[i * width + j].add(new Edge( (i + 1) * width + j, 1));
+                        }
+                        if (i < height - 1 && j > 0 && image.getRGB(j - 1, i + 1) > _BLACK) { // lower left pixel
+                            graph[i * width + j].add(new Edge( (i + 1) * width + j - 1, Math.sqrt(2)));
                         }
                         if (j > 0 && image.getRGB(j - 1, i) > _BLACK) { // left pixel
-                            graph[i * width + j].add(i * width + j - 1);
+                            graph[i * width + j].add(new Edge( i * width + j - 1, 1));
+                        }
+                        if (j > 0 && i > 0 && image.getRGB(j - 1, i - 1) > _BLACK) { // left top pixel
+                            graph[i * width + j].add(new Edge( (i-1) * width + j - 1, Math.sqrt(2)));
                         }
                     }
 
