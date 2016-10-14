@@ -22,9 +22,25 @@ public class PathFinder {
     public static void Start(String path, Point startCoord, Point finCoord){
         nodeGraph = CreateNodeArray(path,finCoord);
         Node goalNode = GoToGoal(startCoord, finCoord);
+        DrawTrack(path, goalNode);
     }
 
-    
+    private static void DrawTrack(String path, Node finalNode){
+        File f = new File(path);
+        int pixelColor = 0;
+        try {
+            BufferedImage image = ImageIO.read(f);
+            Node bfrNode = finalNode;
+            while(bfrNode != null){
+                image.setRGB(bfrNode.getPosition().getX(), bfrNode.getPosition().getY(), pixelColor);
+                bfrNode = bfrNode.getParent();
+            }
+            image.setRGB(2,2, pixelColor);
+            ImageIO.write(image, "png", f);
+        } catch (IOException e) {
+
+        }
+    }
 
     private static Node GoToGoal(Point startCoord, Point finCoord){
         ArrayList<Node> openList = new ArrayList<>();
