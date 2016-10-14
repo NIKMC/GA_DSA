@@ -9,6 +9,11 @@ public class Node {
     Node parent;
     double f, g, h;
     Point position;
+
+    public int[] getLinks() {
+        return links;
+    }
+
     int [] links = new int[8];
 
     public Node(Node parent, double f, double g, double h, Point position) {
@@ -60,6 +65,15 @@ public class Node {
 
     public void setG(double g) {
         this.g = g;
+        this.f  = g + this.h;
+    }
+
+    public void setG(Node parent) {
+        if(parent.getPosition().getX() == this.position.getX() || parent.getPosition().getY() == this.position.getY())
+            this.g = parent.getG() + 1;
+        else
+            this.g = parent.getG() + Math.sqrt(2.0);
+        this.f  = g + this.h;
     }
 
     public void setH(double h) {
@@ -71,10 +85,14 @@ public class Node {
     }
 
     public void CalculateH(Point targetPosition){
-        this.h = Math.sqrt(Math.pow((targetPosition.getX() - this.position.getX()),2) + Math.pow((targetPosition.getY() - this.position.getY()),2));
+//        this.h = Math.sqrt(Math.pow((targetPosition.getX() - this.position.getX()),2) + Math.pow((targetPosition.getY() - this.position.getY()),2));
+        this.h = targetPosition.getX() - this.position.getX() + targetPosition.getY() - this.position.getY();
     }
 
     public void AddLink(int index, int value){
         this.links[index] = value;
     }
+
+
+
 }

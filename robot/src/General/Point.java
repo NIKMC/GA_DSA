@@ -26,4 +26,11 @@ public class Point {
         this.x = x;
         this.y = y;
     }
+
+    public boolean PositionEquals(Point position) {
+        if (this.x == position.getX() && this.y == position.getY())
+            return true;
+        else
+            return false;
+    }
 }

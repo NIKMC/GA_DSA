@@ -35,6 +35,7 @@ public class MapScanner {
                         if (i > 0 && image.getRGB(j, i - 1) > _BLACK) { // top pixel
                             graph[i * width + j].add((i - 1) * width + j);
                         }
+
                         if (i < height - 1 && image.getRGB(j, i + 1) > _BLACK) { // lower pixel
                             graph[i * width + j].add((i + 1) * width + j);
                         }

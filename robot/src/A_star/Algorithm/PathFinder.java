@@ -21,15 +21,82 @@ public class PathFinder {
 
     public static void Start(String path, Point startCoord, Point finCoord){
         nodeGraph = CreateNodeArray(path,finCoord);
-        ArrayList<Node> openList;
-        ArrayList<Integer> closedList;
-        double auxG, auxH, auxF;
-        int singleCoord;
-
-//        openList.add(new Node())
+        Node goalNode = GoToGoal(startCoord, finCoord);
     }
 
+    private static Node GoToGoal(Point startCoord, Point finCoord){
+        ArrayList<Node> openList = new ArrayList<>();
+        ArrayList<Node> closedList = new ArrayList<>();
+        Node nodeBfr, childNode;
+        int iteratorThroughLinks;
+        int leastFNodeIndex;
+        nodeBfr = nodeGraph[TwoDimToOneDim(startCoord, IMG_WIDTH)];
+        nodeBfr.setG(0.0);
+        openList.add(nodeBfr);
+
+        //start picking nodes
+        while(!openList.isEmpty()){
+            leastFNodeIndex = GetLeastFNodeIndex(openList);
+            nodeBfr = openList.remove(leastFNodeIndex);
+            for(iteratorThroughLinks = 0; iteratorThroughLinks < 8; iteratorThroughLinks++){
+                if(nodeBfr.getLinks()[iteratorThroughLinks] != -1) {
+                    childNode = nodeGraph[nodeBfr.getLinks()[iteratorThroughLinks]];
+                    childNode.setParent(nodeBfr);
+                    if(childNode.getPosition().PositionEquals(finCoord))
+                        return childNode;
+                    childNode.setG(nodeBfr);
+
+                    if(BetterFParentIsOnList(openList, childNode.getF(), childNode.getPosition()))
+                        continue;
+                    if(BetterFParentIsOnList(closedList, childNode.getF(), childNode.getPosition()))
+                        continue;
+                    else
+                        openList.add(childNode);
+                }
+            }
+            closedList.add(nodeBfr);
+        }
+        System.out.println("Path not found");
+        return null;
+    }
+
+    private static boolean BetterFParentIsOnList(ArrayList<Node> list, double F, Point childPosition){
+        for(Node iterator : list) {
+            for (int iteratorThroughLinks = 0; iteratorThroughLinks < 8; iteratorThroughLinks++) {
+                if(iterator.getLinks()[iteratorThroughLinks] != -1 && nodeGraph[iterator.getLinks()[iteratorThroughLinks]].getPosition().PositionEquals(childPosition))
+                    if(iterator.getF() < F)
+                        return true;
+            }
+        }
+        return false;
+    }
+
+    private static int GetLeastFNodeIndex(ArrayList<Node> openList){
+        Node leastFnode = openList.get(0);
+        int leastFNodeIndex = 0, i = 0;
+        for(Node iterator : openList){
+            if (iterator.getF() < leastFnode.getF()) {
+                leastFnode = iterator;
+                leastFNodeIndex = i;
+            }
+            i++;
+        }
+        return leastFNodeIndex;
+    }
+
+    private static Node GetLeastFNode(ArrayList<Node> openList){
+        Node leastFnode = openList.get(0);
+        for(Node iterator : openList){
+            if (iterator.getF() < leastFnode.getF())
+                leastFnode = iterator;
+        }
+        return leastFnode;
+    }
+
+
+
     private static Node [] CreateNodeArray(String path, Point finCoord){
+        Node [] nodeGraph;
         GetImageDimension(path);
         try {
             initGraph = MapScanner.scan(path);
@@ -37,7 +104,7 @@ public class PathFinder {
             e.printStackTrace();
             return null;
         }
-        Node [] nodeGraph = new Node[initGraph.length];
+        nodeGraph = new Node[initGraph.length];
         int i=0, j;
         int []xy = {0,0};
         for(LinkedList<Integer> iterator : initGraph){
@@ -70,7 +137,6 @@ public class PathFinder {
     }
 
     private static int TwoDimToOneDim(Point point, int width){
-        System.out.println(point.getX() + point.getY() * width);
         return point.getX() + point.getY() * width;
     }
 

@@ -34,18 +34,38 @@ public class MapScanner {
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
                     if(image.getRGB(j,i) > _BLACK) {
-                        if (i > 0 && image.getRGB(j, i - 1) > _BLACK) { // top pixel
+                        if (i > 0 && image.getRGB(j, i - 1) > _BLACK) { // upper pixel
                             graph[i * width + j].add((i - 1) * width + j);
                         }
-                        if (i < height - 1 && image.getRGB(j, i + 1) > _BLACK) { // lower pixel
-                            graph[i * width + j].add((i + 1) * width + j);
+                        else graph[i * width + j].add(-1);
+                        if (i > 0 && j < width - 1 && image.getRGB(j + 1, i - 1) > _BLACK) { // upper right pixel
+                            graph[i * width + j].add((i - 1) * width + j + 1);
                         }
+                        else graph[i * width + j].add(-1);
                         if (j < width - 1 && image.getRGB(j + 1, i) > _BLACK) { // right pixel
                             graph[i * width + j].add(i * width + j + 1);
                         }
+                        else graph[i * width + j].add(-1);
+                        if (i < height - 1 && j < width - 1 && image.getRGB(j + 1, i + 1) > _BLACK) { // lower right pixel
+                            graph[i * width + j].add((i + 1) * width + j + 1);
+                        }
+                        else graph[i * width + j].add(-1);
+                        if (i < height - 1 && image.getRGB(j, i + 1) > _BLACK) { // lower pixel
+                            graph[i * width + j].add((i + 1) * width + j);
+                        }
+                        else graph[i * width + j].add(-1);
+                        if (i < height - 1 && j > 0 && image.getRGB(j, i + 1) > _BLACK) { // lower left pixel
+                            graph[i * width + j].add((i + 1) * width + j - 1);
+                        }
+                        else graph[i * width + j].add(-1);
                         if (j > 0 && image.getRGB(j - 1, i) > _BLACK) { // left pixel
                             graph[i * width + j].add(i * width + j - 1);
                         }
+                        else graph[i * width + j].add(-1);
+                        if (j > 0 && i > 0 && image.getRGB(j - 1, i) > _BLACK) { // upper left pixel
+                            graph[i * width + j].add((i-1) * width + j - 1);
+                        }
+                        else graph[i * width + j].add(-1);
                     }
 
                 }
