@@ -24,13 +24,15 @@ public class PathFinder {
         Node goalNode = GoToGoal(startCoord, finCoord);
     }
 
+    
+
     private static Node GoToGoal(Point startCoord, Point finCoord){
         ArrayList<Node> openList = new ArrayList<>();
         ArrayList<Node> closedList = new ArrayList<>();
         Node nodeBfr, childNode;
         int iteratorThroughLinks;
         int leastFNodeIndex;
-        nodeBfr = nodeGraph[TwoDimToOneDim(startCoord, IMG_WIDTH)];
+        nodeBfr = new Node(nodeGraph[TwoDimToOneDim(startCoord, IMG_WIDTH)]);
         nodeBfr.setG(0.0);
         openList.add(nodeBfr);
 
@@ -40,7 +42,7 @@ public class PathFinder {
             nodeBfr = openList.remove(leastFNodeIndex);
             for(iteratorThroughLinks = 0; iteratorThroughLinks < 8; iteratorThroughLinks++){
                 if(nodeBfr.getLinks()[iteratorThroughLinks] != -1) {
-                    childNode = nodeGraph[nodeBfr.getLinks()[iteratorThroughLinks]];
+                    childNode = new Node(nodeGraph[nodeBfr.getLinks()[iteratorThroughLinks]]);
                     childNode.setParent(nodeBfr);
                     if(childNode.getPosition().PositionEquals(finCoord))
                         return childNode;

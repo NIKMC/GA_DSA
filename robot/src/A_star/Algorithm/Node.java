@@ -27,6 +27,16 @@ public class Node {
     public Node() {
     }
 
+    public Node(Node nodeToCopy) {
+        this.parent = nodeToCopy.getParent();
+        this.f = nodeToCopy.getF();
+        this.g = nodeToCopy.getG();
+        this.h = nodeToCopy.getH();
+        this.position = nodeToCopy.getPosition();
+        this.links = nodeToCopy.getLinks();
+
+    }
+
     public Node(Node parent, double g, Point position, Point targetPosition) {
         this.parent = parent;
         this.g = g;
@@ -34,6 +44,7 @@ public class Node {
         this.f = g + h;
 
     }
+
 
     public double getF() {
         return f;
