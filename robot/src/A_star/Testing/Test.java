@@ -13,7 +13,7 @@ import General.Point;
  */
 public class Test {
     public static void main(String [] args){
-        PathFinder.Start("robot/src/Labirint.bmp", new Point(1,1), new Point(474,474));
+        PathFinder.Start("robot/src/Labirint.bmp", new Point(1,1), new Point(240,240));
 //        SpoilImage();
     }
 

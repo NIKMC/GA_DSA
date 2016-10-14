@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import General.*;
 import ImageFileReader.*;
+import java.awt.Color;
 
 import javax.imageio.ImageIO;
 
@@ -27,7 +28,7 @@ public class PathFinder {
 
     private static void DrawTrack(String path, Node finalNode){
         File f = new File(path);
-        int pixelColor = 0;
+        int pixelColor = new Color(255,0,0).getRGB();
         try {
             BufferedImage image = ImageIO.read(f);
             Node bfrNode = finalNode;
@@ -80,9 +81,9 @@ public class PathFinder {
 
     private static boolean BetterFParentIsOnList(ArrayList<Node> list, double F, Point childPosition){
         for(Node iterator : list) {
+            if(iterator.getF() < F)
             for (int iteratorThroughLinks = 0; iteratorThroughLinks < 8; iteratorThroughLinks++) {
                 if(iterator.getLinks()[iteratorThroughLinks] != -1 && nodeGraph[iterator.getLinks()[iteratorThroughLinks]].getPosition().PositionEquals(childPosition))
-                    if(iterator.getF() < F)
                         return true;
             }
         }
