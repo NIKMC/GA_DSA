@@ -2,10 +2,10 @@
  * Created by NIKMC on 14.10.16.
  */
 public class Vertex {
-    private int vertexNumber;
-    private double path;
+    public int vertexNumber;
+    public int path;
 
-    public Vertex(int vertexNumber, double path){
+    public Vertex(int vertexNumber, int path){
         this.vertexNumber = vertexNumber;
         this.path = path;
     }
@@ -17,11 +17,11 @@ public class Vertex {
         this.vertexNumber = point;
     }
 
-    public double getPath() {
+    public int getPath() {
         return path;
     }
 
-    public void setPath(double path) {
+    public void setPath(int path) {
         this.path = path;
     }
 }

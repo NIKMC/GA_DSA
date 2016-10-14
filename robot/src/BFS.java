@@ -1,7 +1,8 @@
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Created by NIKMC on 09-Oct-16.
@@ -9,33 +10,37 @@ import java.util.Queue;
 public class BFS {
 
     private int path = 0;
-    private LinkedList<Edg> adj[]; //список смежности
+    private LinkedList<Edge> adj[]; //список смежности
     private boolean used[]; //массив для хранения информации о пройденных и не пройденных вершинах
     private Queue<Integer> queue; //очередь для добавления вершин при обходе в ширину
-
+    private long ver[];
+    private List<Integer> shortPath = new ArrayList<>();
     private void ff(int v){
         if (used[v]) { //если вершина является пройденной, то не производим из нее вызов процедуры
             return;
         }
         queue.add(v); //начинаем обход из вершины v
         used[v] = true; //помечаем вершину как пройденную
+        //ver[v] = (path);
         while (!queue.isEmpty()) {
             v = queue.poll(); //извлекаем вершину из очереди
+            //path++;
             //System.out.print((v + 1) + " ");
             //запускаем обход из всех вершин, смежных с вершиной v
-            path++;
             for (int i = 0; i < adj[v].size(); ++i) {
-                int w = adj[v].get(i).vertex.getVertexNumber();
+                int w = adj[v].get(i).getvNum();
                 //если вершина уже была посещена, то пропускаем ее
                 if (used[w]) {
                     continue;
                 }
-                /*if(adj[v].get(i).getPoint().getPath()==0)*/ adj[v].get(i).vertex.setPath(adj[v].get(i).weight+path);
+
                 queue.add(w); //добавляем вершину в очередь обхода
                 used[w] = true; //помечаем вершину как пройденную
+                ver[w] = ((int)adj[v].get(i).getWeight()+ver[v]);
             }
 
         }
+
 //            adj[v].get(i).setPoint(path);
 
     }
@@ -79,41 +84,94 @@ public class BFS {
             System.out.println();
         }*/
 
-        adj = editGraph(graph);
+        adj = graph;
+        ver = new long[adj.length];
+
         used = new boolean[adj.length];
         queue = new LinkedList<Integer>();
         Arrays.fill(used, false);
         for (int i = 0; i < graph.length; i++) {
             ff(i);
         }
-
-        for(int i=0; i<480; i++){
+        createPath();
+        /*for(int i=0; i<adj.length; i++){
             System.out.print(adj[i].size() + "| Ver = " + i + "|        ");
             for(int j=0; j<adj[i].size();j++){
-                System.out.print("Ycheka " + adj[i].get(j).vertex.getVertexNumber() + " | (path = " + adj[i].get(j).vertex.getPath() + ") ( " + adj[i].get(j).weight + ")" + " - ");
+                System.out.print("Ycheka " + adj[i].get(j).getvNum() + " | (path = " + ver[adj[i].get(j).getvNum()] + ") ( " + adj[i].get(j).getWeight() + ")" + " - ");
             }
             System.out.println();
+        }*/
+        for(int i=0;i<shortPath.size(); i++){
+            System.out.println("Ycheka = " + shortPath.get(i));
         }
+        DrawTrack("Labirint111.bmp",shortPath);
 
+    }
+
+    private void createPath() {
+        if (ver[adj.length-1] != 0) {
+            long path = ver[adj.length-1];
+//            do{
+            for (int i = adj.length-1; i >= 0; i--) {
+                if (ver[i] == path) {
+                    shortPath.add(i);
+                    path--;
+                }
+            }
+//            } while (ver[0] == path);
+        if(shortPath.contains(0) ){
+            System.out.println("путь найден");
+        } else {
+            System.out.println("путь не найден");
+        }
+    }
+       /* перейти в финишную ячейку
+        ЦИКЛ
+        выбрать среди соседних ячейку, помеченную числом на 1 меньше числа в текущей ячейке
+        перейти в выбранную ячейку и добавить её к пути
+        ПОКА текущая ячейка — не стартовая
+        ВОЗВРАТ путь найден
+                ИНАЧЕ*/
+
+    }
+
+    private static void DrawTrack(String path, List<Integer> shortPath){
+        File f = new File(path);
+        int pixelColor = 0;
+        try {
+            BufferedImage image = ImageIO.read(f);
+            for(int i=0;i<shortPath.size(); i++){
+                if(shortPath.get(i)==0){
+                    image.setRGB(shortPath.get(i), shortPath.get(i), pixelColor);
+                }else{
+                    image.setRGB(shortPath.get(i)&480, shortPath.get(i)/480, pixelColor);
+                }
+            }
+            image.setRGB(0,0, pixelColor);
+            ImageIO.write(image, "png", f);
+        } catch (IOException e) {
+
+        }
     }
 
     private LinkedList<Edg>[] editGraph(LinkedList<Edge>[] graph){
         LinkedList<Edg> Graph[] = new LinkedList[graph.length];
 
-        for(int i=0; i<graph.length; i++){
+/*        for(int i=0; i<graph.length; i++){
             for(int j=0; j<graph[i].size();j++){
-                Graph[i].add(new Edg(new Vertex(graph[i].get(j).getvNum(),0), graph[i].get(j).getWeight()));
+                Graph[i].add(new Edg(
+                        new Vertex(graph[i].get(j).getvNum(),0), (int)graph[i].get(j).getWeight()));
 
             }
-        }
+        }*/
 
 return Graph;
     }
 
 public class Edg{
-   public double weight;
+   public int weight;
     public Vertex vertex;
-    public Edg (Vertex vertex, double weight){
+    public Edg (Vertex vertex, int weight){
         this.vertex = vertex;
         this.weight = weight;
     }
