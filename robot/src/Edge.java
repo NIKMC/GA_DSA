@@ -4,10 +4,10 @@
 public class Edge {
     private int vNum;
     private double weight;
-
     public Edge(int vNum, double weight) {
         this.vNum = vNum;
         this.weight = weight;
+
     }
 
     public int getvNum() {
@@ -25,4 +25,6 @@ public class Edge {
     public void setWeight(double weight) {
         this.weight = weight;
     }
+
+
 }

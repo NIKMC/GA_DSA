@@ -10,7 +10,13 @@ import java.io.IOException;
 public class Main {
 
     public static void main(String[] args){
-        new Loading().loadImage();
+        //new Loading().loadImage();
+        try {
+            new BFS().run(MapScanner.scan("Labirint.bmp"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
     //dsdvsdv
 }
