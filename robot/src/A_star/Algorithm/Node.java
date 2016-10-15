@@ -97,7 +97,7 @@ public class Node {
 
     public void CalculateH(Point targetPosition){
 //        this.h = Math.sqrt(Math.pow((targetPosition.getX() - this.position.getX()),2) + Math.pow((targetPosition.getY() - this.position.getY()),2));
-        this.h = targetPosition.getX() - this.position.getX() + targetPosition.getY() - this.position.getY();
+        this.h = Math.abs(targetPosition.getX() - this.position.getX()) + Math.abs(targetPosition.getY() - this.position.getY());
     }
 
     public void AddLink(int index, int value){
