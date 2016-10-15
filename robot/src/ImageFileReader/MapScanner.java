@@ -54,7 +54,7 @@ public class MapScanner {
                             graph[i * width + j].add((i + 1) * width + j);
                         }
                         else graph[i * width + j].add(-1);
-                        if (i < height - 1 && j > 0 && image.getRGB(j, i + 1) > _BLACK) { // lower left pixel
+                        if (i < height - 1 && j > 0 && image.getRGB(j - 1, i + 1) > _BLACK) { // lower left pixel
                             graph[i * width + j].add((i + 1) * width + j - 1);
                         }
                         else graph[i * width + j].add(-1);
@@ -62,7 +62,7 @@ public class MapScanner {
                             graph[i * width + j].add(i * width + j - 1);
                         }
                         else graph[i * width + j].add(-1);
-                        if (j > 0 && i > 0 && image.getRGB(j - 1, i) > _BLACK) { // upper left pixel
+                        if (j > 0 && i > 0 && image.getRGB(j - 1, i - 1) > _BLACK) { // upper left pixel
                             graph[i * width + j].add((i-1) * width + j - 1);
                         }
                         else graph[i * width + j].add(-1);
@@ -76,5 +76,6 @@ public class MapScanner {
         }*/
         return graph;
     }
+
 
 }
