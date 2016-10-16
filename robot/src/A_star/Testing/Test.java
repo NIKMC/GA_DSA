@@ -7,13 +7,15 @@ import java.io.IOException;
 
 import A_star.Algorithm.PathFinder;
 import General.Point;
+import ImageFileReader.MapScanner;
 
 /**
  * Created by Konstantin on 09.10.2016.
  */
 public class Test {
     public static void main(String [] args){
-        PathFinder.Start("robot/src/Labirint.bmp", new Point(1,1), new Point(240,240));
+        PathFinder.Start("robot/src/Labirint - Copy.bmp", new Point(1,1), new Point(367,245));
+
 //        SpoilImage();
     }
 

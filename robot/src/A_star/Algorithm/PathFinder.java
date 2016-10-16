@@ -57,6 +57,8 @@ public class PathFinder {
         while(!openList.isEmpty()){
             leastFNodeIndex = GetLeastFNodeIndex(openList);
             nodeBfr = openList.remove(leastFNodeIndex);
+            if(isPresentOnList(closedList, nodeBfr.getPosition()))
+                continue;
             for(iteratorThroughLinks = 0; iteratorThroughLinks < 8; iteratorThroughLinks++){
                 if(nodeBfr.getLinks()[iteratorThroughLinks] != -1) {
                     childNode = new Node(nodeGraph[nodeBfr.getLinks()[iteratorThroughLinks]]);
@@ -65,9 +67,9 @@ public class PathFinder {
                         return childNode;
                     childNode.setG(nodeBfr);
 
-                    if(BetterFParentIsOnList(openList, childNode.getF(), childNode.getPosition()))
+                    if(BetterFSamePosOnList(openList, childNode.getF(), childNode.getPosition()))
                         continue;
-                    if(BetterFParentIsOnList(closedList, childNode.getF(), childNode.getPosition()))
+                    if(BetterFSamePosOnList(closedList, childNode.getF(), childNode.getPosition()))
                         continue;
                     else
                         openList.add(childNode);
@@ -79,13 +81,18 @@ public class PathFinder {
         return null;
     }
 
-    private static boolean BetterFParentIsOnList(ArrayList<Node> list, double F, Point childPosition){
+    private static boolean isPresentOnList(ArrayList<Node> list, Point position){
         for(Node iterator : list) {
-            if(iterator.getF() < F)
-            for (int iteratorThroughLinks = 0; iteratorThroughLinks < 8; iteratorThroughLinks++) {
-                if(iterator.getLinks()[iteratorThroughLinks] != -1 && nodeGraph[iterator.getLinks()[iteratorThroughLinks]].getPosition().PositionEquals(childPosition))
-                        return true;
-            }
+            if(iterator.getPosition().PositionEquals(position))
+                return true;
+        }
+            return false;
+    }
+
+    private static boolean BetterFSamePosOnList(ArrayList<Node> list, double F, Point position){
+        for(Node iterator : list) {
+            if(iterator.getF() < F && iterator.getPosition().PositionEquals(position))
+                return true;
         }
         return false;
     }
@@ -118,7 +125,7 @@ public class PathFinder {
         Node [] nodeGraph;
         GetImageDimension(path);
         try {
-            initGraph = MapScanner.scan(path);
+            initGraph = MapScanner.scan(path, 5);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
