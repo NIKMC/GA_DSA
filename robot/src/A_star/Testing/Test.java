@@ -14,7 +14,12 @@ import ImageFileReader.MapScanner;
  */
 public class Test {
     public static void main(String [] args){
-        PathFinder.Start("robot/src/Labirint - Copy.bmp", new Point(1,1), new Point(367,245));
+//        try {
+//            MapScanner.scanTest("robot/src/Labirint - Copy.bmp", 5);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        PathFinder.Start("robot/src/Labirint - Copy.bmp", new Point(1,1), new Point(240,240));
 
 //        SpoilImage();
     }

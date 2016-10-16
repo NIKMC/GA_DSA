@@ -39,44 +39,36 @@ public class MapScanner {
             for (int i = 0; i < height - _robotWidth; i++) {
                 for (int j = 0; j < width - _robotWidth; j++) {
                     if(image.getRGB(j,i) > _BLACK) {
-                        if (i > 0 && image.getRGB(j, i - 1) > _BLACK) { // upper pixel
-                            if (_enoughSpace(j, i, j, i - 1, image))
-                                graph[i * width + j].add((i - 1) * width + j);
+                        if (i > 0 && image.getRGB(j, i - 1) > _BLACK && _enoughSpace(j, i, j, i - 1, image)) { // upper pixel
+                            graph[i * width + j].add((i - 1) * width + j);
                         }
                         else graph[i * width + j].add(-1);
-                        if (i > 0 && j < width - 1 && image.getRGB(j + 1, i - 1) > _BLACK) { // upper right pixel
-                            if (_enoughSpace(j, i, j+1, i - 1, image))
-                                graph[i * width + j].add((i - 1) * width + j + 1);
+                        if (i > 0 && j < width - 1 && image.getRGB(j + 1, i - 1) > _BLACK && _enoughSpace(j, i, j+1, i - 1, image)) { // upper right pixel
+                            graph[i * width + j].add((i - 1) * width + j + 1);
                         }
                         else graph[i * width + j].add(-1);
-                        if (j < width - 1 && image.getRGB(j + 1, i) > _BLACK) { // right pixel
-                            if (_enoughSpace(j, i, j, i - 1, image))
-                                graph[i * width + j].add(i * width + j + 1);
+                        if (j < width - 1 && image.getRGB(j + 1, i) > _BLACK && _enoughSpace(j, i, j, i - 1, image)) { // right pixel
+                            graph[i * width + j].add(i * width + j + 1);
                         }
                         else graph[i * width + j].add(-1);
-                        if (i < height - 1 && j < width - 1 && image.getRGB(j + 1, i + 1) > _BLACK) { // lower right pixel
-                            if (_enoughSpace(j, i, j+1, i + 1, image))
-                                graph[i * width + j].add((i + 1) * width + j + 1);
+                        if (i < height - 1 && j < width - 1 && image.getRGB(j + 1, i + 1) > _BLACK && _enoughSpace(j, i, j+1, i + 1, image)) { // lower right pixel
+                            graph[i * width + j].add((i + 1) * width + j + 1);
                         }
                         else graph[i * width + j].add(-1);
-                        if (i < height - 1 && image.getRGB(j, i + 1) > _BLACK) { // lower pixel
-                            if (_enoughSpace(j, i, j, i + 1, image))
-                                graph[i * width + j].add((i + 1) * width + j);
+                        if (i < height - 1 && image.getRGB(j, i + 1) > _BLACK && _enoughSpace(j, i, j, i + 1, image)) { // lower pixel
+                            graph[i * width + j].add((i + 1) * width + j);
                         }
                         else graph[i * width + j].add(-1);
-                        if (i < height - 1 && j > 0 && image.getRGB(j - 1, i + 1) > _BLACK) { // lower left pixel
-                            if (_enoughSpace(j, i, j - 1, i + 1, image))
-                                graph[i * width + j].add((i + 1) * width + j - 1);
+                        if (i < height - 1 && j > 0 && image.getRGB(j - 1, i + 1) > _BLACK && _enoughSpace(j, i, j - 1, i + 1, image)) { // lower left pixel
+                            graph[i * width + j].add((i + 1) * width + j - 1);
                         }
                         else graph[i * width + j].add(-1);
-                        if (j > 0 && image.getRGB(j - 1, i) > _BLACK) { // left pixel
-                            if (_enoughSpace(j, i, j - 1, i, image))
-                                graph[i * width + j].add(i * width + j - 1);
+                        if (j > 0 && image.getRGB(j - 1, i) > _BLACK && _enoughSpace(j, i, j - 1, i, image)) { // left pixel
+                            graph[i * width + j].add(i * width + j - 1);
                         }
                         else graph[i * width + j].add(-1);
-                        if (j > 0 && i > 0 && image.getRGB(j - 1, i - 1) > _BLACK) { // upper left pixel
-                            if (_enoughSpace(j, i, j - 1, i - 1, image))
-                                graph[i * width + j].add((i-1) * width + j - 1);
+                        if (j > 0 && i > 0 && image.getRGB(j - 1, i - 1) > _BLACK && _enoughSpace(j, i, j - 1, i - 1, image)) { // upper left pixel
+                            graph[i * width + j].add((i-1) * width + j - 1);
                         }
                         else graph[i * width + j].add(-1);
                     }
@@ -110,4 +102,66 @@ public class MapScanner {
     }
 
 
+
+    public static LinkedList<Integer>[] scanTest(String path, int robotWidth) throws IOException {
+
+        LinkedList<Integer> [] graph = null;
+        File f = new File(path);
+        BufferedImage image = ImageIO.read(f);
+        _robotWidth = robotWidth;
+
+        if(image != null){
+            width = image.getWidth();
+            height = image.getHeight();
+            graph = new LinkedList[height*width];  // graphh is a matrix -> array, matrix[i,j] = graph[i*width + j]
+            for (int i = 0; i < graph.length; i++) {
+                graph[i] = new LinkedList<Integer>();
+            }
+
+            for (int i = 432; i < 436; i++) {
+                for (int j = 432; j < 436; j++) {
+                    System.out.println(i * width + j + ". " + image.getRGB(j,i));
+                    if(image.getRGB(j,i) > _BLACK) {
+                        if (i > 0 && image.getRGB(j, i - 1) > _BLACK && _enoughSpace(j, i, j, i - 1, image)) { // upper pixel
+                                graph[i * width + j].add((i - 1) * width + j);
+                        }
+                        else graph[i * width + j].add(-1);
+                        if (i > 0 && j < width - 1 && image.getRGB(j + 1, i - 1) > _BLACK && _enoughSpace(j, i, j+1, i - 1, image)) { // upper right pixel
+                                graph[i * width + j].add((i - 1) * width + j + 1);
+                        }
+                        else graph[i * width + j].add(-1);
+                        if (j < width - 1 && image.getRGB(j + 1, i) > _BLACK && _enoughSpace(j, i, j, i - 1, image)) { // right pixel
+                                graph[i * width + j].add(i * width + j + 1);
+                        }
+                        else graph[i * width + j].add(-1);
+                        if (i < height - 1 && j < width - 1 && image.getRGB(j + 1, i + 1) > _BLACK && _enoughSpace(j, i, j+1, i + 1, image)) { // lower right pixel
+                                graph[i * width + j].add((i + 1) * width + j + 1);
+                        }
+                        else graph[i * width + j].add(-1);
+                        if (i < height - 1 && image.getRGB(j, i + 1) > _BLACK && _enoughSpace(j, i, j, i + 1, image)) { // lower pixel
+                                graph[i * width + j].add((i + 1) * width + j);
+                        }
+                        else graph[i * width + j].add(-1);
+                        if (i < height - 1 && j > 0 && image.getRGB(j - 1, i + 1) > _BLACK && _enoughSpace(j, i, j - 1, i + 1, image)) { // lower left pixel
+                                graph[i * width + j].add((i + 1) * width + j - 1);
+                        }
+                        else graph[i * width + j].add(-1);
+                        if (j > 0 && image.getRGB(j - 1, i) > _BLACK && _enoughSpace(j, i, j - 1, i, image)) { // left pixel
+                                graph[i * width + j].add(i * width + j - 1);
+                        }
+                        else graph[i * width + j].add(-1);
+                        if (j > 0 && i > 0 && image.getRGB(j - 1, i - 1) > _BLACK && _enoughSpace(j, i, j - 1, i - 1, image)) { // upper left pixel
+                                graph[i * width + j].add((i-1) * width + j - 1);
+                        }
+                        else graph[i * width + j].add(-1);
+                    }
+
+                }
+            }
+        }
+        /*for (int i = 0; i < graph.length; i++) {
+            System.out.println(graph[i]);
+        }*/
+        return graph;
+    }
 }
