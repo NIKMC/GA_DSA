@@ -1,8 +1,10 @@
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.List;
 
 /**
  * Created by NIKMC on 09-Oct-16.
@@ -13,7 +15,7 @@ public class BFS {
     private LinkedList<Edge> adj[]; //список смежности
     private boolean used[]; //массив для хранения информации о пройденных и не пройденных вершинах
     private Queue<Integer> queue; //очередь для добавления вершин при обходе в ширину
-    private long ver[];
+    private double ver[];
     private List<Integer> shortPath = new ArrayList<>();
     private void ff(int v){
         if (used[v]) { //если вершина является пройденной, то не производим из нее вызов процедуры
@@ -36,7 +38,7 @@ public class BFS {
 
                 queue.add(w); //добавляем вершину в очередь обхода
                 used[w] = true; //помечаем вершину как пройденную
-                ver[w] = ((int)adj[v].get(i).getWeight()+ver[v]);
+                ver[w] = (adj[v].get(i).getWeight()+ver[v]);
             }
 
         }
@@ -76,22 +78,32 @@ public class BFS {
     }*/
     public void run(LinkedList<Edge>[] graph) {
 
-        /*for(int i=0; i<graph.length; i++){
+        /*for(int i=0; i<1000; i++){
             System.out.print(graph[i].size() + "| " + i + "= Ver | ");
             for(int j=0; j<graph[i].size();j++){
                 System.out.print(graph[i].get(j).getvNum() + " ( " + graph[i].get(j).getWeight() + ")" + " - ");
             }
             System.out.println();
         }*/
-
         adj = graph;
-        ver = new long[adj.length];
+        ver = new double[adj.length];
 
         used = new boolean[adj.length];
         queue = new LinkedList<Integer>();
         Arrays.fill(used, false);
-        for (int i = 0; i < graph.length; i++) {
+        for (int i = 0; i < graph.length-(480*4); i++) {
             ff(i);
+        }
+
+/*for(int i=0;i<ver.length;i++){
+    System.out.println("ver = " + i + "| path = " + ver[i]);
+}*/
+        for(int i=0; i<1000; i++){
+            System.out.print(adj[i].size() + "| Ver = " + i + "|        ");
+            for(int j=0; j<adj[i].size();j++){
+                System.out.print("Ycheka " + adj[i].get(j).getvNum() + " | (path = " + ver[adj[i].get(j).getvNum()] + ") ( " + adj[i].get(j).getWeight() + ")" + " - ");
+            }
+            System.out.println();
         }
         createPath();
         /*for(int i=0; i<adj.length; i++){
@@ -104,18 +116,18 @@ public class BFS {
         for(int i=0;i<shortPath.size(); i++){
             System.out.println("Ycheka = " + shortPath.get(i));
         }
-        DrawTrack("Labirint111.bmp",shortPath);
+        DrawTrack("Labirint.bmp",shortPath);
 
     }
 
     private void createPath() {
-        if (ver[adj.length-1] != 0) {
-            long path = ver[adj.length-1];
+        if (ver[227995] != 0) {
+            double path = ver[227995];
 //            do{
-            for (int i = adj.length-1; i >= 0; i--) {
+            for (int i = 227995; i >= 0; i--) {
                 if (ver[i] == path) {
                     shortPath.add(i);
-                    path--;
+                    path-= ver[i];
                 }
             }
 //            } while (ver[0] == path);
@@ -135,20 +147,39 @@ public class BFS {
 
     }
 
-    private static void DrawTrack(String path, List<Integer> shortPath){
+    /*private static void DrawTrack(String path, List<Integer> shortPath){
         File f = new File(path);
-        int pixelColor = 0;
+        int pixelColor = 11236;
         try {
             BufferedImage image = ImageIO.read(f);
             for(int i=0;i<shortPath.size(); i++){
                 if(shortPath.get(i)==0){
                     image.setRGB(shortPath.get(i), shortPath.get(i), pixelColor);
                 }else{
-                    image.setRGB(shortPath.get(i)&480, shortPath.get(i)/480, pixelColor);
+                    image.setRGB(shortPath.get(i)%480, shortPath.get(i)/480, pixelColor);
                 }
             }
             image.setRGB(0,0, pixelColor);
-            ImageIO.write(image, "png", f);
+            ImageIO.write(image, "bmp", f);
+        } catch (IOException e) {
+
+        }
+    }*/
+    private static void DrawTrack(String path, List<Integer> shortPath){
+        File f = new File(path);
+        int pixelColor = new Color(255,0,0).getRGB();
+        try {
+            BufferedImage image = ImageIO.read(f);
+
+            for(int i=0;i<shortPath.size(); i++){
+                if(shortPath.get(i)==0){
+                    image.setRGB(shortPath.get(i), shortPath.get(i), pixelColor);
+                }else{
+                    image.setRGB(shortPath.get(i)%480, shortPath.get(i)/480, pixelColor);
+                }
+            }
+            image.setRGB(2,2, pixelColor);
+            ImageIO.write(image, "bmp", f);
         } catch (IOException e) {
 
         }

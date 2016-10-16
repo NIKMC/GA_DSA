@@ -46,7 +46,7 @@ public class MapScanner {
                             graph[i * width + j].add(new Edge((i - 1) * width + j + 1, Math.sqrt(2)));
                         }
                         if (j < width - 1 && image.getRGB(j + 1, i) > _BLACK) { // right pixel
-                            if (_enoughSpace(j, i, j, i - 1, image))
+                            if (_enoughSpace(j, i, j+1, i, image))
                             graph[i * width + j].add(new Edge( i * width + j + 1, 1));
                         }
                         if (j < width - 1 && i < height - 1 &&  image.getRGB(j + 1, i + 1) > _BLACK) { // right lower pixel
