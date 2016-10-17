@@ -43,15 +43,15 @@ public class MapScanner {
                             graph[i * width + j].add((i - 1) * width + j);
                         }
                         else graph[i * width + j].add(-1);
-                        if (i > 0 && j < width - 1 && image.getRGB(j + 1, i - 1) > _BLACK && _enoughSpace(j, i, j+1, i - 1, image)) { // upper right pixel
+                        if (i > 0 && j < width - 1 && image.getRGB(j + 1, i - 1) > _BLACK && _enoughSpace(j, i, j + 1, i - 1, image)) { // upper right pixel
                             graph[i * width + j].add((i - 1) * width + j + 1);
                         }
                         else graph[i * width + j].add(-1);
-                        if (j < width - 1 && image.getRGB(j + 1, i) > _BLACK && _enoughSpace(j, i, j, i - 1, image)) { // right pixel
+                        if (j < width - 1 && image.getRGB(j + 1, i) > _BLACK && _enoughSpace(j, i, j + 1, i, image)) { // right pixel
                             graph[i * width + j].add(i * width + j + 1);
                         }
                         else graph[i * width + j].add(-1);
-                        if (i < height - 1 && j < width - 1 && image.getRGB(j + 1, i + 1) > _BLACK && _enoughSpace(j, i, j+1, i + 1, image)) { // lower right pixel
+                        if (i < height - 1 && j < width - 1 && image.getRGB(j + 1, i + 1) > _BLACK && _enoughSpace(j, i, j + 1, i + 1, image)) { // lower right pixel
                             graph[i * width + j].add((i + 1) * width + j + 1);
                         }
                         else graph[i * width + j].add(-1);
