@@ -78,33 +78,38 @@ public class BFS {
     }*/
     public void run(LinkedList<Edge>[] graph) {
 
-        /*for(int i=0; i<1000; i++){
+        for(int i=0; i<graph.length; i++){
             System.out.print(graph[i].size() + "| " + i + "= Ver | ");
             for(int j=0; j<graph[i].size();j++){
                 System.out.print(graph[i].get(j).getvNum() + " ( " + graph[i].get(j).getWeight() + ")" + " - ");
             }
             System.out.println();
-        }*/
+        }
         adj = graph;
         ver = new double[adj.length];
 
         used = new boolean[adj.length];
         queue = new LinkedList<Integer>();
         Arrays.fill(used, false);
-        for (int i = 0; i < graph.length-(480*4); i++) {
+        for (int i = 0; i < 227994; i++) {//graph.length-(480*4)
             ff(i);
         }
+        /*System.out.println(ver[98119] + "| " + adj[98119].size());
+        for(int i=0; i< adj[98119].size();i++){
+            System.out.println(ver[98119] + "| " + adj[98119].get(i).getvNum());
+
+        }*/
 
 /*for(int i=0;i<ver.length;i++){
     System.out.println("ver = " + i + "| path = " + ver[i]);
 }*/
-        for(int i=0; i<1000; i++){
+        /*for(int i=0; i<1000; i++){
             System.out.print(adj[i].size() + "| Ver = " + i + "|        ");
             for(int j=0; j<adj[i].size();j++){
                 System.out.print("Ycheka " + adj[i].get(j).getvNum() + " | (path = " + ver[adj[i].get(j).getvNum()] + ") ( " + adj[i].get(j).getWeight() + ")" + " - ");
             }
             System.out.println();
-        }
+        }*/
         createPath();
         /*for(int i=0; i<adj.length; i++){
             System.out.print(adj[i].size() + "| Ver = " + i + "|        ");
@@ -113,24 +118,37 @@ public class BFS {
             }
             System.out.println();
         }*/
-        for(int i=0;i<shortPath.size(); i++){
+        /*for(int i=0;i<shortPath.size(); i++){
             System.out.println("Ycheka = " + shortPath.get(i));
-        }
+        }*/
         DrawTrack("Labirint.bmp",shortPath);
 
     }
 
     private void createPath() {
-        if (ver[227995] != 0) {
-            double path = ver[227995];
-//            do{
-            for (int i = 227995; i >= 0; i--) {
-                if (ver[i] == path) {
+        if (ver[227994] != 0) {
+            double path = ver[227994];
+            int i = 227994;
+            LinkedList<Edge> curent = adj[i];
+            do{
+                        //сравнить значения всех вершин и самую минимальную записать
+//    находим минимальное значение, записываем его вершину, из пути вычитаем ребро между текушим и нашедшим
+
+                System.out.println("vershina = " + i);
+                int x = findMinimum(curent);
+                shortPath.add(i);
+                path = path - adj[i].get(x).getWeight();
+                i = adj[i].get(x).getvNum();
+                curent = adj[i];
+                //for (int i = 227995; i >= 0; i--) {
+
+                
+/*                if (ver[i] == path) {
                     shortPath.add(i);
                     path-= ver[i];
-                }
-            }
-//            } while (ver[0] == path);
+                }*/
+            //}
+            } while (path > 0 );
         if(shortPath.contains(0) ){
             System.out.println("путь найден");
         } else {
@@ -146,6 +164,26 @@ public class BFS {
                 ИНАЧЕ*/
 
     }
+
+    private int findMinimum(LinkedList<Edge> current) {
+        double min = -1;
+        int pos = -1;
+        int verh = -1;
+        if (current.size() != 0) {
+            min = ver[current.get(0).getvNum()];
+            pos = 0;
+            verh = current.get(0).getvNum();
+        for (int j = 0; j < current.size(); j++) {
+            if (ver[current.get(j).getvNum()] < min /*&& current.get(j).getvNum()<verh*/) {
+                min = ver[current.get(j).getvNum()];
+//                verh = current.get(j).getvNum();
+                pos = j;
+            }
+        }
+    }
+        return pos;
+    }
+
 
     /*private static void DrawTrack(String path, List<Integer> shortPath){
         File f = new File(path);
@@ -178,7 +216,7 @@ public class BFS {
                     image.setRGB(shortPath.get(i)%480, shortPath.get(i)/480, pixelColor);
                 }
             }
-            image.setRGB(2,2, pixelColor);
+            //image.setRGB(2,2, pixelColor);
             ImageIO.write(image, "bmp", f);
         } catch (IOException e) {
 
