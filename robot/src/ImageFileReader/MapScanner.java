@@ -1,5 +1,7 @@
 package ImageFileReader;
 
+import javafx.util.Pair;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -164,4 +166,58 @@ public class MapScanner {
         }*/
         return graph;
     }
+
+    public static Pair<Integer, Integer> findStartFinish(String path) {
+        File f = new File(path);
+        BufferedImage _image = null;
+        try {
+            _image = ImageIO.read(f);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        int start = 0, finish = 0;
+        // red = -65536
+
+        if(_image != null) {
+            int _width = _image.getWidth();
+            int _height = _image.getHeight();
+            int i = 0; int j = 0; int rgb = 0;
+
+            boolean isFind = false;
+            while (i < _height-1 && !isFind) { // find start;
+                j=0;
+                while ( j < _width-1 && !isFind) {
+                    rgb = _image.getRGB(j,i);
+                    if( rgb < -1 && rgb > _BLACK ){
+                        start = i*_width + j;
+                        isFind = true;
+                    }
+                    j++;
+                }
+                i++;
+            }
+            System.out.println(start);
+            while (i < _height-1 && j < _width-1 && _image.getRGB(j,i) > _BLACK && _image.getRGB(j,i) < -1){
+                i+=3; j+=3;
+            }
+            isFind = false;
+            while (i < _height-1 && !isFind ) { // find finish;
+                j=0;
+                while (j < _width-1 && !isFind) {
+                    rgb = _image.getRGB(j,i);
+                    if(rgb < -1 && rgb > _BLACK ){
+                        finish = i*_width + j;
+                        isFind=true;
+                    }
+                    j++;
+                }
+                i++;
+            }
+            System.out.println(finish);
+
+        }
+
+        return new Pair<Integer, Integer>(start,finish);
+    }
+
 }

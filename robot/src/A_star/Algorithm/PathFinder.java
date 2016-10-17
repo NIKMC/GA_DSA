@@ -7,6 +7,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 import General.*;
 import ImageFileReader.*;
+import javafx.util.Pair;
+
 import java.awt.Color;
 
 import javax.imageio.ImageIO;
@@ -20,7 +22,12 @@ public class PathFinder {
     static LinkedList<Integer> [] initGraph;
     static Node [] nodeGraph;
 
-    public static void Start(String path, Point startCoord, Point finCoord){
+    public static void Start(String path){
+        ImageDimensionsDetermination(path);
+        Point startCoord, finCoord;
+        Pair<Integer, Integer> p = MapScanner.findStartFinish(path);
+        startCoord = new Point(p.getKey()%IMG_WIDTH, p.getKey()/IMG_WIDTH );
+        finCoord = new Point(p.getValue()%IMG_WIDTH, p.getValue()/IMG_WIDTH);
         nodeGraph = CreateNodeArray(path,finCoord);
         Node goalNode = GoToGoal(startCoord, finCoord);
         DrawTrack(path, goalNode);

@@ -19,7 +19,7 @@ public class Test {
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
-        PathFinder.Start("robot/src/Labirint - Copy.bmp", new Point(1,1), new Point(86,136));
+        PathFinder.Start("robot/src/Labirint.bmp");
 
 //        SpoilImage();
     }
