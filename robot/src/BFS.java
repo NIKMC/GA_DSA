@@ -1,3 +1,5 @@
+import javafx.util.Pair;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -76,22 +78,22 @@ public class BFS {
             bfs(i);
         }
     }*/
-    public void run(LinkedList<Edge>[] graph) {
+    public void run(LinkedList<Edge>[] graph, Pair<Integer, Integer> startFinish) {
 
-        for(int i=0; i<graph.length; i++){
+        /*for(int i=0; i<graph.length; i++){
             System.out.print(graph[i].size() + "| " + i + "= Ver | ");
             for(int j=0; j<graph[i].size();j++){
                 System.out.print(graph[i].get(j).getvNum() + " ( " + graph[i].get(j).getWeight() + ")" + " - ");
             }
             System.out.println();
-        }
+        }*/
         adj = graph;
         ver = new double[adj.length];
 
         used = new boolean[adj.length];
         queue = new LinkedList<Integer>();
         Arrays.fill(used, false);
-        for (int i = 0; i < 227994; i++) {//graph.length-(480*4)
+        for (int i = startFinish.getKey(); i < startFinish.getValue(); i++) {//graph.length-(480*4)
             ff(i);
         }
         /*System.out.println(ver[98119] + "| " + adj[98119].size());
@@ -110,7 +112,7 @@ public class BFS {
             }
             System.out.println();
         }*/
-        createPath();
+        createPath(startFinish);
         /*for(int i=0; i<adj.length; i++){
             System.out.print(adj[i].size() + "| Ver = " + i + "|        ");
             for(int j=0; j<adj[i].size();j++){
@@ -125,10 +127,10 @@ public class BFS {
 
     }
 
-    private void createPath() {
-        if (ver[227994] != 0) {
-            double path = ver[227994];
-            int i = 227994;
+    private void createPath(Pair<Integer, Integer> finishvalue) {
+        if (ver[finishvalue.getValue()] != 0) {
+            double path = ver[finishvalue.getValue()];
+            int i = finishvalue.getValue();
             LinkedList<Edge> curent = adj[i];
             do{
                         //сравнить значения всех вершин и самую минимальную записать
@@ -149,7 +151,7 @@ public class BFS {
                 }*/
             //}
             } while (path > 0 );
-        if(shortPath.contains(0) ){
+        if(shortPath.contains(finishvalue.getKey()) ){
             System.out.println("путь найден");
         } else {
             System.out.println("путь не найден");
@@ -213,7 +215,11 @@ public class BFS {
                 if(shortPath.get(i)==0){
                     image.setRGB(shortPath.get(i), shortPath.get(i), pixelColor);
                 }else{
-                    image.setRGB(shortPath.get(i)%480, shortPath.get(i)/480, pixelColor);
+                    for(int x=0;x<5;x++){
+                        for (int y =0;y <5;y++){
+                            image.setRGB(shortPath.get(i)%480+y, shortPath.get(i)/480+x, pixelColor);
+                        }
+                    }
                 }
             }
             //image.setRGB(2,2, pixelColor);
