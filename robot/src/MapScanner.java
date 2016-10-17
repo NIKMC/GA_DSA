@@ -36,38 +36,38 @@ public class MapScanner {
 
             for (int i = 0; i < height - _robotWidth; i++) {
                 for (int j = 0; j < width - _robotWidth; j++) {
-                    if(image.getRGB(j,i) > _BLACK) {
+                    if (image.getRGB(j, i) > _BLACK) {
                         if (i > 0 && image.getRGB(j, i - 1) > _BLACK) { // top pixel
                             if (_enoughSpace(j, i, j, i - 1, image))
                                 graph[i * width + j].add(new Edge((i - 1) * width + j, 1));
                         }
-
-                        if (i < height - 1 && image.getRGB(j, i + 1) > _BLACK) { // lower pixel
-                            graph[i * width + j].add((i + 1) * width + j);
+                        if (i < height - 1 && image.getRGB(j + 1, i - 1) > _BLACK) { // top right pixel
+                            if (_enoughSpace(j, i, j + 1, i - 1, image))
+                                graph[i * width + j].add(new Edge((i - 1) * width + j + 1, Math.sqrt(2)));
                         }
                         if (j < width - 1 && image.getRGB(j + 1, i) > _BLACK) { // right pixel
-                            if (_enoughSpace(j, i, j+1, i, image))
-                            graph[i * width + j].add(new Edge( i * width + j + 1, 1));
+                            if (_enoughSpace(j, i, j + 1, i, image))
+                                graph[i * width + j].add(new Edge(i * width + j + 1, 1));
                         }
-                        if (j < width - 1 && i < height - 1 &&  image.getRGB(j + 1, i + 1) > _BLACK) { // right lower pixel
-                            if (_enoughSpace(j, i, j+1, i + 1, image))
-                            graph[i * width + j].add(new Edge( (i+1) * width + j + 1, Math.sqrt(2)));
+                        if (j < width - 1 && i < height - 1 && image.getRGB(j + 1, i + 1) > _BLACK) { // right lower pixel
+                            if (_enoughSpace(j, i, j + 1, i + 1, image))
+                                graph[i * width + j].add(new Edge((i + 1) * width + j + 1, Math.sqrt(2)));
                         }
                         if (i < height - 1 && image.getRGB(j, i + 1) > _BLACK) { // lower pixel
                             if (_enoughSpace(j, i, j, i + 1, image))
-                            graph[i * width + j].add(new Edge( (i + 1) * width + j, 1));
+                                graph[i * width + j].add(new Edge((i + 1) * width + j, 1));
                         }
                         if (i < height - 1 && j > 0 && image.getRGB(j - 1, i + 1) > _BLACK) { // lower left pixel
                             if (_enoughSpace(j, i, j - 1, i + 1, image))
-                            graph[i * width + j].add(new Edge( (i + 1) * width + j - 1, Math.sqrt(2)));
+                                graph[i * width + j].add(new Edge((i + 1) * width + j - 1, Math.sqrt(2)));
                         }
                         if (j > 0 && image.getRGB(j - 1, i) > _BLACK) { // left pixel
                             if (_enoughSpace(j, i, j - 1, i, image))
-                            graph[i * width + j].add(new Edge( i * width + j - 1, 1));
+                                graph[i * width + j].add(new Edge(i * width + j - 1, 1));
                         }
                         if (j > 0 && i > 0 && image.getRGB(j - 1, i - 1) > _BLACK) { // left top pixel
                             if (_enoughSpace(j, i, j - 1, i - 1, image))
-                            graph[i * width + j].add(new Edge( (i-1) * width + j - 1, Math.sqrt(2)));
+                                graph[i * width + j].add(new Edge((i - 1) * width + j - 1, Math.sqrt(2)));
                         }
                     }
 
