@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import General.*;
 
 /**
  * Created by NIKMC on 07-Oct-16.
