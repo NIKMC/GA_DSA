@@ -1,3 +1,5 @@
+import javafx.util.Pair;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -36,38 +38,38 @@ public class MapScanner {
 
             for (int i = 0; i < height - _robotWidth; i++) {
                 for (int j = 0; j < width - _robotWidth; j++) {
-                    if(image.getRGB(j,i) > _BLACK) {
+                    if (image.getRGB(j, i) > _BLACK) {
                         if (i > 0 && image.getRGB(j, i - 1) > _BLACK) { // top pixel
                             if (_enoughSpace(j, i, j, i - 1, image))
                                 graph[i * width + j].add(new Edge((i - 1) * width + j, 1));
                         }
-                        if (i > 0 && j < width - 1 && image.getRGB(j + 1, i - 1) > _BLACK) { // top right pixel
-                            if (_enoughSpace(j, i, j+1, i - 1, image))
-                            graph[i * width + j].add(new Edge((i - 1) * width + j + 1, Math.sqrt(2)));
+                        if (j < width - 1 && i  > 0 && image.getRGB(j + 1, i - 1) > _BLACK) { // top right pixel
+                            if (_enoughSpace(j, i, j + 1, i - 1, image))
+                                graph[i * width + j].add(new Edge((i - 1) * width + j + 1, Math.sqrt(2)));
                         }
                         if (j < width - 1 && image.getRGB(j + 1, i) > _BLACK) { // right pixel
-                            if (_enoughSpace(j, i, j+1, i, image))
-                            graph[i * width + j].add(new Edge( i * width + j + 1, 1));
+                            if (_enoughSpace(j, i, j + 1, i, image))
+                                graph[i * width + j].add(new Edge(i * width + j + 1, 1));
                         }
-                        if (j < width - 1 && i < height - 1 &&  image.getRGB(j + 1, i + 1) > _BLACK) { // right lower pixel
-                            if (_enoughSpace(j, i, j+1, i + 1, image))
-                            graph[i * width + j].add(new Edge( (i+1) * width + j + 1, Math.sqrt(2)));
+                        if (j < width - 1 && i < height - 1 && image.getRGB(j + 1, i + 1) > _BLACK) { // right lower pixel
+                            if (_enoughSpace(j, i, j + 1, i + 1, image))
+                                graph[i * width + j].add(new Edge((i + 1) * width + j + 1, Math.sqrt(2)));
                         }
                         if (i < height - 1 && image.getRGB(j, i + 1) > _BLACK) { // lower pixel
                             if (_enoughSpace(j, i, j, i + 1, image))
-                            graph[i * width + j].add(new Edge( (i + 1) * width + j, 1));
+                                graph[i * width + j].add(new Edge((i + 1) * width + j, 1));
                         }
                         if (i < height - 1 && j > 0 && image.getRGB(j - 1, i + 1) > _BLACK) { // lower left pixel
                             if (_enoughSpace(j, i, j - 1, i + 1, image))
-                            graph[i * width + j].add(new Edge( (i + 1) * width + j - 1, Math.sqrt(2)));
+                                graph[i * width + j].add(new Edge((i + 1) * width + j - 1, Math.sqrt(2)));
                         }
                         if (j > 0 && image.getRGB(j - 1, i) > _BLACK) { // left pixel
                             if (_enoughSpace(j, i, j - 1, i, image))
-                            graph[i * width + j].add(new Edge( i * width + j - 1, 1));
+                                graph[i * width + j].add(new Edge(i * width + j - 1, 1));
                         }
                         if (j > 0 && i > 0 && image.getRGB(j - 1, i - 1) > _BLACK) { // left top pixel
                             if (_enoughSpace(j, i, j - 1, i - 1, image))
-                            graph[i * width + j].add(new Edge( (i-1) * width + j - 1, Math.sqrt(2)));
+                                graph[i * width + j].add(new Edge((i - 1) * width + j - 1, Math.sqrt(2)));
                         }
                     }
 
@@ -98,4 +100,51 @@ public class MapScanner {
         return true;
     }
 
+    public static Pair<Integer, Integer> findStartFinish(String path) throws IOException {
+        File f = new File(path);
+        BufferedImage _image = ImageIO.read(f);
+        int start = 0, finish = 0;
+        // red = -65536
+
+        if(_image != null) {
+            int _width = _image.getWidth();
+            int _height = _image.getHeight();
+            int i = 0; int j = 0; int rgb = 0;
+
+            boolean isFind = false;
+            while (i < _height-1 && !isFind) { // find start;
+                j=0;
+                while ( j < _width-1 && !isFind) {
+                    rgb = _image.getRGB(j,i);
+                    if( rgb < -1 && rgb > _BLACK ){
+                        start = i*_width + j;
+                        isFind = true;
+                    }
+                    j++;
+                }
+                i++;
+            }
+            System.out.println(start);
+            while (i < _height-1 && j < _width-1 && _image.getRGB(j,i) > _BLACK && _image.getRGB(j,i) < -1){
+                i+=3; j+=3;
+            }
+            isFind = false;
+            while (i < _height-1 && !isFind ) { // find finish;
+                j=0;
+                while (j < _width-1 && !isFind) {
+                    rgb = _image.getRGB(j,i);
+                    if(rgb < -1 && rgb > _BLACK ){
+                        finish = i*_width + j;
+                        isFind=true;
+                    }
+                    j++;
+                }
+                i++;
+            }
+            System.out.println(finish);
+
+        }
+
+        return new Pair<Integer, Integer>(start,finish);
+    }
 }
