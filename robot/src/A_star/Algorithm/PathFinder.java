@@ -15,8 +15,8 @@ import javax.imageio.ImageIO;
  * Created by Konstantin on 10.10.2016.
  */
 public class PathFinder {
-    static int IMG_WIDTH = 480;
-    static int IMG_HEIGHT = 480;
+    static int IMG_WIDTH ;
+    static int IMG_HEIGHT;
     static LinkedList<Integer> [] initGraph;
     static Node [] nodeGraph;
 
@@ -24,6 +24,17 @@ public class PathFinder {
         nodeGraph = CreateNodeArray(path,finCoord);
         Node goalNode = GoToGoal(startCoord, finCoord);
         DrawTrack(path, goalNode);
+    }
+
+    private static void ImageDimensionsDetermination(String path){
+        File f = new File(path);
+        try {
+            BufferedImage image = ImageIO.read(f);
+            IMG_WIDTH = image.getWidth();
+            IMG_HEIGHT = image.getHeight();
+        } catch (IOException e) {
+
+        }
     }
 
     private static void DrawTrack(String path, Node finalNode){

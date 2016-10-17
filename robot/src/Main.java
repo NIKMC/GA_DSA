@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import General.*;
+import javafx.util.Pair;
 
 /**
  * Created by NIKMC on 07-Oct-16.
@@ -13,6 +14,7 @@ public class Main {
     public static void main(String[] args){
         //new Loading().loadImage();
         try {
+            Pair<Integer, Integer> startFinish = MapScanner.findStartFinish("Labirint.bmp");
             new BFS().run(MapScanner.scan("Labirint.bmp", 5));
         } catch (IOException e) {
             e.printStackTrace();
