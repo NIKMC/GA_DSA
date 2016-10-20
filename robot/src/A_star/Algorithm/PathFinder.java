@@ -22,7 +22,7 @@ public class PathFinder {
     static LinkedList<Integer> [] initGraph;
     static Node [] nodeGraph;
 
-    public static void Start(String path){
+    public static Pair<Point, Point> Start(String path){
         ImageDimensionsDetermination(path);
         Point startCoord, finCoord;
         Pair<Integer, Integer> p = MapScanner.findStartFinish(path);
@@ -33,8 +33,10 @@ public class PathFinder {
 //        startCoord = new Point(5, 5 );
 //        finCoord = new Point(1910, 1910);
         nodeGraph = CreateNodeArray(path,finCoord);
-        Node goalNode = GoToGoal(startCoord, finCoord);
-        DrawTrack(path, goalNode);
+        Pair<Point, Point> coor = new Pair<>(startCoord, finCoord);
+        return coor;
+//        Node goalNode = GoToGoal(startCoord, finCoord);
+//        DrawTrack(path, goalNode);
     }
 
     private static void ImageDimensionsDetermination(String path){
@@ -65,13 +67,13 @@ public class PathFinder {
         }
     }
 
-    private static Node GoToGoal(Point startCoord, Point finCoord){
+    private static Node GoToGoal(/*Point startCoord, Point finCoord*/ Pair<Point, Point> coor){
         ArrayList<Node> openList = new ArrayList<>();
         ArrayList<Node> closedList = new ArrayList<>();
         Node nodeBfr, childNode;
         int iteratorThroughLinks;
         int leastFNodeIndex;
-        nodeBfr = new Node(nodeGraph[TwoDimToOneDim(startCoord, IMG_WIDTH)]);
+        nodeBfr = new Node(nodeGraph[TwoDimToOneDim(coor.getKey(), IMG_WIDTH)]);
         nodeBfr.setG(0.0);
         openList.add(nodeBfr);
 
@@ -85,7 +87,7 @@ public class PathFinder {
                 if(nodeBfr.getLinks()[iteratorThroughLinks] != -1) {
                     childNode = new Node(nodeGraph[nodeBfr.getLinks()[iteratorThroughLinks]]);
                     childNode.setParent(nodeBfr);
-                    if(childNode.getPosition().PositionEquals(finCoord))
+                    if(childNode.getPosition().PositionEquals(coor.getValue()))
                         return childNode;
                     childNode.setG(nodeBfr);
 
