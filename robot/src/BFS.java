@@ -81,9 +81,12 @@ public class BFS {
     public void run(LinkedList<Edge>[] graph, Pair<Integer, Integer> startFinish) {
 
         /*for(int i=0; i<graph.length; i++){
-            System.out.print(graph[i].size() + "| " + i + "= Ver | ");
+            //System.out.print(graph[i].size() + "| " + i + "= Ver | ");
             for(int j=0; j<graph[i].size();j++){
-                System.out.print(graph[i].get(j).getvNum() + " ( " + graph[i].get(j).getWeight() + ")" + " - ");
+                //System.out.print(graph[i].get(j).getvNum() + " ( " + graph[i].get(j).getWeight() + ")" + " - ");
+                //if(graph[64256].size() > 0){
+                //    System.out.println("lol"+graph[64256].get(j));
+                //}
             }
             System.out.println();
         }*/
@@ -144,7 +147,7 @@ public class BFS {
                 curent = adj[i];
                 //for (int i = 227995; i >= 0; i--) {
 
-                
+
 /*                if (ver[i] == path) {
                     shortPath.add(i);
                     path-= ver[i];
