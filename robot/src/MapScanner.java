@@ -116,7 +116,7 @@ public class MapScanner {
                 j=0;
                 while ( j < _width-1 && !isFind) {
                     rgb = _image.getRGB(j,i);
-                    if( rgb < -1 && rgb > _BLACK ){
+                    if( /*rgb < -1 && rgb > _BLACK*/ rgb == -65536 ){
                         start = i*_width + j;
                         isFind = true;
                     }
@@ -125,15 +125,15 @@ public class MapScanner {
                 i++;
             }
             System.out.println(start);
-            while (i < _height-1 && j < _width-1 && _image.getRGB(j,i) > _BLACK && _image.getRGB(j,i) < -1){
-                i+=3; j+=3;
+            while (i < _height-1 && j < _width-1 && /*rgb < -1 && rgb > _BLACK*/ _image.getRGB(j,i) == -65536){
+                i+=10; j+=10;
             }
             isFind = false;
             while (i < _height-1 && !isFind ) { // find finish;
                 j=0;
                 while (j < _width-1 && !isFind) {
                     rgb = _image.getRGB(j,i);
-                    if(rgb < -1 && rgb > _BLACK ){
+                    if(/*rgb < -1 && rgb > _BLACK*/ rgb == -65536){
                         finish = i*_width + j;
                         isFind=true;
                     }

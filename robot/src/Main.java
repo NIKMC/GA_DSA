@@ -12,13 +12,20 @@ import javafx.util.Pair;
 public class Main {
 
     public static void main(String[] args){
-        //new Loading().loadImage();
+       // new Loading().loadImage();
+
+        long start = 0, finish = 0;
         try {
             Pair<Integer, Integer> startFinish = MapScanner.findStartFinish("Labirint.bmp");
-            new BFS().run(MapScanner.scan("Labirint.bmp", 5));
+            start = System.currentTimeMillis();
+            new BFS().run(MapScanner.scan("Labirint.bmp", 4),startFinish);
+            finish = System.currentTimeMillis();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("time in millis = " + (finish - start));
+
+
 
     }
 
