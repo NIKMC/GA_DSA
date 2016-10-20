@@ -78,7 +78,7 @@ public class BFS {
             bfs(i);
         }
     }*/
-    public void run(LinkedList<Edge>[] graph, Pair<Integer, Integer> startFinish) {
+    public List<Integer> run(LinkedList<Edge>[] graph, Pair<Integer, Integer> startFinish) {
 
         /*for(int i=0; i<graph.length; i++){
             //System.out.print(graph[i].size() + "| " + i + "= Ver | ");
@@ -126,8 +126,8 @@ public class BFS {
         /*for(int i=0;i<shortPath.size(); i++){
             System.out.println("Ycheka = " + shortPath.get(i));
         }*/
-        DrawTrack("Labirint.bmp",shortPath);
-
+        //DrawTrack("Labirint.bmp",shortPath);
+        return shortPath;
     }
 
     private void createPath(Pair<Integer, Integer> finishvalue) {
@@ -208,7 +208,7 @@ public class BFS {
 
         }
     }*/
-    private static void DrawTrack(String path, List<Integer> shortPath){
+    public static void DrawTrack(String path, List<Integer> shortPath){
         File f = new File(path);
         int pixelColor = new Color(255,0,0).getRGB();
         try {

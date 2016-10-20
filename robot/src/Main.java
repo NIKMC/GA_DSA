@@ -18,7 +18,9 @@ public class Main {
         try {
             Pair<Integer, Integer> startFinish = MapScanner.findStartFinish("Labirint.bmp");
             start = System.currentTimeMillis();
-            new BFS().run(MapScanner.scan("Labirint.bmp", 4),startFinish);
+            BFS bfs = new BFS();
+            bfs.run(MapScanner.scan("Labirint.bmp", 4),startFinish);
+            BFS.DrawTrack("Labirint.bmp",bfs.run(MapScanner.scan("Labirint.bmp", 4),startFinish));
             finish = System.currentTimeMillis();
         } catch (IOException e) {
             e.printStackTrace();
