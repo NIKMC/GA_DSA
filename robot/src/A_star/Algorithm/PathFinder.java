@@ -67,7 +67,7 @@ public class PathFinder {
         }
     }
 
-    private static Node GoToGoal(/*Point startCoord, Point finCoord*/ Pair<Point, Point> coor){
+    public static Node GoToGoal(/*Point startCoord, Point finCoord*/ Pair<Point, Point> coor){
         ArrayList<Node> openList = new ArrayList<>();
         ArrayList<Node> closedList = new ArrayList<>();
         Node nodeBfr, childNode;

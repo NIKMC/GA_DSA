@@ -78,7 +78,7 @@ public class BFS {
             bfs(i);
         }
     }*/
-    public List<Integer> run(LinkedList<Edge>[] graph, Pair<Integer, Integer> startFinish) {
+    public List<Integer>    run(LinkedList<Edge>[] graph, Pair<Integer, Integer> startFinish) {
 
         /*for(int i=0; i<graph.length; i++){
             //System.out.print(graph[i].size() + "| " + i + "= Ver | ");
