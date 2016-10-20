@@ -21,7 +21,7 @@ public class MapScanner {
     private static int width;
     private static int height;
     private static int _robotWidth;
-    private static long _BLACK = -16000000;
+    private static long _BLACK = -12000000;
 
     public static LinkedList<Integer>[] scan(String path, int robotWidth) throws IOException {
 
@@ -188,7 +188,9 @@ public class MapScanner {
                 j=0;
                 while ( j < _width-1 && !isFind) {
                     rgb = _image.getRGB(j,i);
-                    if( rgb < -1 && rgb > _BLACK ){
+                    //if( rgb < -1 && rgb > _BLACK ){
+//                    if( rgb == - 65536){
+                    if( rgb <= - 60000 && rgb >= -70000){
                         start = i*_width + j;
                         isFind = true;
                     }
@@ -196,8 +198,8 @@ public class MapScanner {
                 }
                 i++;
             }
-            System.out.println(start);
-            while (i < _height-1 && j < _width-1 && _image.getRGB(j,i) > _BLACK && _image.getRGB(j,i) < -1){
+//            System.out.println(start);
+            while (i < _height-1 && j < _width-1 &&  _image.getRGB(j,i) <= -60000 && _image.getRGB(j,i)>=-70000){
                 i+=3; j+=3;
             }
             isFind = false;
@@ -205,7 +207,8 @@ public class MapScanner {
                 j=0;
                 while (j < _width-1 && !isFind) {
                     rgb = _image.getRGB(j,i);
-                    if(rgb < -1 && rgb > _BLACK ){
+//                    if(rgb < -1 && rgb > _BLACK ){
+                    if( rgb <= - 60000 && rgb >= -70000){
                         finish = i*_width + j;
                         isFind=true;
                     }
@@ -213,7 +216,7 @@ public class MapScanner {
                 }
                 i++;
             }
-            System.out.println(finish);
+//            System.out.println(finish);
 
         }
 

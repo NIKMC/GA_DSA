@@ -19,7 +19,10 @@ public class Test {
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
-        PathFinder.Start("robot/src/Labirint.bmp");
+        long timeCount = System.nanoTime();
+        PathFinder.Start("robot/src/lbrnt.bmp");
+        timeCount = System.nanoTime() - timeCount;
+        System.out.println(timeCount * Math.pow(10,-9) + "seconds");
 
 //        SpoilImage();
     }

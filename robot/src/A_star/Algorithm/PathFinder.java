@@ -28,6 +28,10 @@ public class PathFinder {
         Pair<Integer, Integer> p = MapScanner.findStartFinish(path);
         startCoord = new Point(p.getKey()%IMG_WIDTH, p.getKey()/IMG_WIDTH );
         finCoord = new Point(p.getValue()%IMG_WIDTH, p.getValue()/IMG_WIDTH);
+        System.out.println(startCoord.getX() + " " + startCoord.getY());
+        System.out.println(finCoord.getX() + " " + finCoord.getY());
+//        startCoord = new Point(5, 5 );
+//        finCoord = new Point(1910, 1910);
         nodeGraph = CreateNodeArray(path,finCoord);
         Node goalNode = GoToGoal(startCoord, finCoord);
         DrawTrack(path, goalNode);
